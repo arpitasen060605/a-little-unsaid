@@ -1,0 +1,68 @@
+---
+const { title, author, status, note, color = "#6b7a64" } = Astro.props;
+---
+
+<div class="book">
+  <div class="cover" style={`background:${color}`}>
+    <span>{title}</span>
+  </div>
+  <p class="title">{title}</p>
+  <p class="author">{author}</p>
+  {status && <p class="status">{status}</p>}
+  {note && <p class="note handwritten">{note}</p>}
+</div>
+
+<style>
+  .book {
+    position: relative;
+  }
+  .cover {
+    aspect-ratio: 2 / 3;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    text-align: center;
+    color: var(--paper);
+    font-size: var(--text-lg);
+    line-height: 1.2;
+    box-shadow: 2px 4px 10px rgba(36, 33, 30, 0.2);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  /* The hover from your plan: lift, tilt, deeper shadow */
+  .book:hover .cover {
+    transform: translateY(-8px) rotate(-2deg);
+    box-shadow: 6px 14px 22px rgba(36, 33, 30, 0.28);
+  }
+  .title {
+    margin: var(--space-2) 0 0;
+    font-size: var(--text-sm);
+    line-height: 1.3;
+  }
+  .author {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--gray);
+  }
+  .status {
+    margin: 0.3rem 0 0;
+    font-size: var(--text-sm);
+    font-style: italic;
+    color: var(--wine);
+  }
+  /* The tiny personal note: hidden until you hover the book */
+  .note {
+    position: absolute;
+    top: -1.2rem;
+    right: -0.5rem;
+    margin: 0;
+    font-size: 1.1rem;
+    opacity: 0;
+    transform: rotate(6deg) translateY(6px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+  }
+  .book:hover .note {
+    opacity: 1;
+    transform: rotate(6deg) translateY(0);
+  }
+</style>

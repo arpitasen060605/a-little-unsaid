@@ -1,0 +1,51 @@
+---
+const { category, title, readTime, href = "#", image } = Astro.props;
+---
+
+<a href={href} class="essay-card">
+  <div class="thumb">
+    {image ? <img src={image} alt="" /> : <div class="placeholder"></div>}
+  </div>
+  <p class="label">{category}</p>
+  <h3>{title}</h3>
+  <p class="meta">{readTime} min read</p>
+</a>
+
+<style>
+  .essay-card {
+    display: block;
+    background-image: none; /* no underline on the whole card */
+  }
+  .thumb {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    margin-bottom: var(--space-2);
+    background: var(--line);
+  }
+  .thumb img,
+  .placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+  }
+  .placeholder {
+    background: linear-gradient(135deg, var(--line), var(--sage));
+    opacity: 0.6;
+  }
+  .essay-card:hover .thumb img,
+  .essay-card:hover .placeholder {
+    transform: scale(1.04);
+  }
+  .label {
+    margin: 0 0 0.4rem;
+  }
+  h3 {
+    margin-bottom: 0.4rem;
+  }
+  .meta {
+    font-size: var(--text-sm);
+    color: var(--gray);
+    margin: 0;
+  }
+</style>

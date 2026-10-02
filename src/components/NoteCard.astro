@@ -1,0 +1,26 @@
+---
+const { text, number, tilt = -2 } = Astro.props;
+---
+
+<div class="note-card" style={`--tilt:${tilt}deg`}>
+  {number && <span class="label">{number}</span>}
+  <p class="handwritten">{text}</p>
+</div>
+
+<style>
+  .note-card {
+    background: #ece5d8;
+    padding: var(--space-3);
+    transform: rotate(var(--tilt));
+    box-shadow: 1px 2px 8px rgba(36, 33, 30, 0.12);
+    transition: transform 0.4s ease;
+  }
+  .note-card:hover {
+    transform: rotate(0deg) translateY(-3px);
+  }
+  p {
+    margin: 0.4rem 0 0;
+    font-size: 1.6rem;
+    color: var(--ink);
+  }
+</style>

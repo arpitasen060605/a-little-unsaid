@@ -127,3 +127,80 @@ a:hover {
   border-top: 1px solid var(--line);
   margin: var(--space-4) 0;
 }
+
+/* ============================================
+   Buttons
+   ============================================ */
+
+/* Outlined button: "EXPLORE THE JOURNEY →" */
+.btn {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.9rem 1.6rem;
+  border: 1px solid var(--ink);
+  background-image: none; /* turns off the animated link underline */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--ink);
+  color: var(--paper);
+}
+
+/* Quiet text link: "READ MORE →" */
+.link-arrow {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.link-arrow::after {
+  content: " →";
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.link-arrow:hover::after {
+  transform: translateX(4px);
+}
+
+/* ============================================
+   Grids
+   ============================================ */
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+/* Books: as many columns as fit, each at least 140px wide */
+.grid-books {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--space-3);
+}
+
+/* Phones: stack the 3-column grid */
+@media (max-width: 760px) {
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Small section heading row: "Latest from the journal ——— VIEW ALL" */
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--space-3);
+}
+.section-head h2 {
+  font-size: var(--text-lg);
+  margin: 0;
+}
+

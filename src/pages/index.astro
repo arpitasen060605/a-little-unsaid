@@ -1,17 +1,52 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import EssayCard from "../components/EssayCard.astro";
+import BookCard from "../components/BookCard.astro";
+import NoteCard from "../components/NoteCard.astro";
 ---
 
-<BaseLayout title="Style guide — a little unsaid.">
+<BaseLayout title="Components — a little unsaid.">
   <main class="container" style="padding-block: 4rem;">
-    <p class="label">A quiet place for curious hearts</p>
-    <h1>Books, feelings, and the things we <em>don't always</em> say.</h1>
-    <p>This is body text in Cormorant Garamond. <a href="#">This is a link</a>, hover over it.</p>
+
+    <p class="label">Buttons</p>
+    <a href="#" class="btn">Explore the journey →</a>
+    &nbsp;&nbsp;
+    <a href="#" class="link-arrow">Read more</a>
 
     <hr class="divider" />
 
-    <h2>Heading two</h2>
-    <h3>Heading three</h3>
-    <p class="handwritten">some people only stay in chapters.</p>
+    <div class="section-head">
+      <h2>Latest from the journal</h2>
+      <a href="#" class="link-arrow label">View all</a>
+    </div>
+    <div class="grid-3">
+      <EssayCard category="Books" title="What Norwegian Wood taught me about loneliness" readTime="6" />
+      <EssayCard category="Think" title="Why do we overthink but still crave clarity" readTime="5" />
+      <EssayCard category="Feel" title="On outgrowing people you still love" readTime="7" />
+    </div>
+
+    <hr class="divider" />
+
+    <div class="section-head">
+      <h2>My bookshelf</h2>
+    </div>
+    <div class="grid-books">
+      <BookCard title="Normal People" author="Sally Rooney" status="Currently reading" note="couldn't stop" color="#6b7a64" />
+      <BookCard title="The Midnight Library" author="Matt Haig" status="Finished" note="cried a little" color="#2c3550" />
+      <BookCard title="Love, Theoretically" author="Ali Hazelwood" status="Finished" color="#a05a62" />
+      <BookCard title="The Song of Achilles" author="Madeline Miller" status="Want to read" color="#b9a98a" />
+    </div>
+
+    <hr class="divider" />
+
+    <div class="section-head">
+      <h2>From the margins</h2>
+    </div>
+    <div class="grid-3">
+      <NoteCard number="014" text="Maybe nostalgia is just memory asking to be felt." tilt={-2} />
+      <NoteCard number="013" text="Some people become chapters. Others become punctuation." tilt={1.5} />
+      <NoteCard number="012" text="There are things we understand only after we stop trying to." tilt={-1} />
+    </div>
+    
   </main>
 </BaseLayout>
