@@ -1,13 +1,44 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import EssayCard from "../components/EssayCard.astro";
+import BookCard from "../components/BookCard.astro";
 
-// Put a photo at public/images/hero.jpg, then set this to "/images/hero.jpg".
-// While it's empty, a soft placeholder shows instead.
 const heroImage = "";
+
+// ---- Temporary content (Phase 4 moves this into Markdown files) ----
+const featured = {
+  category: "Think",
+  title: "Why do we replay old conversations?",
+  blurb: "On memory, regret, and the conversations we never quite finish.",
+  readTime: 5,
+  href: "#",
+};
+
+const latest = [
+  { category: "Read", title: "What Norwegian Wood taught me about loneliness", readTime: 6 },
+  { category: "Think", title: "Why do we become attached to people who aren't good for us?", readTime: 7 },
+  { category: "Feel", title: "On outgrowing people you still love", readTime: 8 },
+];
+
+const books = [
+  { title: "Normal People", author: "Sally Rooney", status: "Currently reading", color: "#6b7a64" },
+  { title: "The Midnight Library", author: "Matt Haig", status: "Finished", color: "#2c3550" },
+  { title: "Love, Theoretically", author: "Ali Hazelwood", status: "Finished", color: "#a05a62" },
+  { title: "The Song of Achilles", author: "Madeline Miller", status: "Want to read", color: "#b9a98a" },
+  { title: "Mahabharat Untravelled", author: "Sutapa Basu", status: "Change of pace", color: "#8a5a2b" },
+];
+
+const margins = [
+  { number: "014", text: "Maybe nostalgia is just memory asking to be felt." },
+  { number: "013", text: "Some people become chapters. Others become punctuation." },
+  { number: "012", text: "There are things we understand only after we stop trying to." },
+];
 ---
 
 <BaseLayout title="a little unsaid. — books, feelings, and the things we don't always say">
   <main>
+
+    <!-- HERO -->
     <section class="container hero">
       <div class="hero-text">
         <p class="label">A quiet place for curious hearts</p>
@@ -24,10 +55,81 @@ const heroImage = "";
         <p class="handwritten sticky">same stories, different versions of me.</p>
       </div>
     </section>
+
+    <!-- FEATURED ESSAY -->
+    <section class="container section featured">
+      <div class="featured-image">
+        <div class="placeholder"></div>
+      </div>
+      <div class="featured-text">
+        <p class="label">Featured essay · {featured.readTime} min read</p>
+        <h2>{featured.title}</h2>
+        <p class="blurb">{featured.blurb}</p>
+        <a href={featured.href} class="link-arrow">Read</a>
+      </div>
+    </section>
+
+    <!-- LATEST FROM THE JOURNAL -->
+    <section class="container section">
+      <div class="section-head">
+        <h2>Latest from the journal</h2>
+        <a href="/read" class="link-arrow label">View all</a>
+      </div>
+      <div class="grid-3">
+        {latest.map((e) => (
+          <EssayCard category={e.category} title={e.title} readTime={e.readTime} />
+        ))}
+      </div>
+    </section>
+
+    <!-- BOOKSHELF PREVIEW -->
+    <section class="container section">
+      <div class="section-head">
+        <h2>My bookshelf</h2>
+        <a href="/bookshelf" class="link-arrow label">View all</a>
+      </div>
+      <div class="shelf">
+        {books.map((b) => (
+          <BookCard title={b.title} author={b.author} status={b.status} color={b.color} />
+        ))}
+      </div>
+    </section>
+
+    <!-- FROM THE MARGINS -->
+    <section class="container section">
+      <div class="section-head">
+        <h2>From the margins</h2>
+        <a href="/margins" class="link-arrow label">View all</a>
+      </div>
+      <ul class="margin-list">
+        {margins.map((m) => (
+          <li>
+            <span class="label">{m.number}</span>
+            <p>{m.text}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- A LITTLE LETTER -->
+    <section class="container section">
+      <a href="#" class="letter">
+        <p class="label">A little letter · September</p>
+        <h2>On books I almost abandoned, people I still think about, and the strange comfort of starting over.</h2>
+        <span class="link-arrow">Read</span>
+      </a>
+    </section>
+
   </main>
 </BaseLayout>
 
 <style>
+  /* shared spacing between homepage sections */
+  .section {
+    margin-top: var(--space-6);
+  }
+
+  /* ---------- Hero (unchanged) ---------- */
   .hero {
     display: grid;
     grid-template-columns: 1fr 1.1fr;
@@ -36,7 +138,7 @@ const heroImage = "";
     padding-block: var(--space-5);
   }
   .hero-text h1 {
-    max-width: 11em; /* narrows the headline so it breaks nicely */
+    max-width: 11em;
     margin-block: var(--space-2) var(--space-3);
   }
   .intro {
@@ -58,7 +160,6 @@ const heroImage = "";
     background: linear-gradient(160deg, var(--line), var(--sage));
     opacity: 0.55;
   }
-  /* the little torn-note on the corner of the photo */
   .sticky {
     position: absolute;
     right: -0.8rem;
@@ -72,6 +173,74 @@ const heroImage = "";
     box-shadow: 1px 3px 10px rgba(36, 33, 30, 0.18);
   }
 
+  /* ---------- Featured essay ---------- */
+  .featured {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+    align-items: center;
+  }
+  .featured-image {
+    aspect-ratio: 4 / 3;
+  }
+  .featured-text h2 {
+    margin-block: var(--space-1) var(--space-2);
+  }
+  .blurb {
+    color: var(--gray);
+    max-width: 26em;
+    margin-bottom: var(--space-3);
+  }
+
+  /* ---------- Bookshelf preview ---------- */
+  .shelf {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-3);
+  }
+
+  /* ---------- Margins list ---------- */
+  .margin-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .margin-list li {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    align-items: baseline;
+    padding-block: var(--space-2);
+    border-bottom: 1px solid var(--line);
+  }
+  .margin-list p {
+    margin: 0;
+    font-size: var(--text-lg);
+    font-style: italic;
+  }
+
+  /* ---------- Little letter ---------- */
+  .letter {
+    display: block;
+    background: #3a2f2a;
+    color: var(--paper);
+    padding: var(--space-5) var(--space-4);
+    background-image: none;
+  }
+  .letter .label {
+    color: #c9bfae;
+  }
+  .letter h2 {
+    max-width: 22em;
+    margin-block: var(--space-2) var(--space-3);
+  }
+
+  /* ---------- Tablet + phone ---------- */
+  @media (max-width: 960px) {
+    .shelf {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
   @media (max-width: 760px) {
     .hero {
       grid-template-columns: 1fr;
@@ -80,6 +249,19 @@ const heroImage = "";
     }
     .sticky {
       right: 0.5rem;
+    }
+    .featured {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+    .shelf {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .margin-list li {
+      grid-template-columns: 3rem 1fr;
+    }
+    .letter {
+      padding: var(--space-4) var(--space-3);
     }
   }
 </style>
