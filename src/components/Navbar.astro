@@ -1,0 +1,105 @@
+---
+// Astro.url.pathname is the current page's address, e.g. "/read"
+const path = Astro.url.pathname;
+
+const links = [
+  { href: "/read", label: "Read" },
+  { href: "/think", label: "Think" },
+  { href: "/feel", label: "Feel" },
+  { href: "/margins", label: "Margins" },
+  { href: "/bookshelf", label: "Bookshelf" },
+  { href: "/about", label: "About" },
+];
+---
+
+<header class="navbar">
+  <div class="container bar">
+    <a href="/" class="logo">a little <em>unsaid.</em></a>
+
+    <button class="menu-btn label" aria-expanded="false" aria-controls="nav-links">
+      Menu
+    </button>
+
+    <nav id="nav-links" class="links">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          class:list={["label", { active: path.startsWith(l.href) }]}
+        >
+          {l.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Mobile menu: toggle the "open" class on the links
+  const btn = document.querySelector(".menu-btn");
+  const nav = document.querySelector("#nav-links");
+
+  btn?.addEventListener("click", () => {
+    const isOpen = nav?.classList.toggle("open");
+    btn.setAttribute("aria-expanded", String(isOpen));
+  });
+</script>
+
+<style>
+  .navbar {
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+    position: relative;
+    z-index: 10;
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 1.4rem;
+  }
+  .logo {
+    font-size: 1.9rem;
+    line-height: 1;
+    background-image: none;
+  }
+  .links {
+    display: flex;
+    gap: 2.5rem;
+  }
+  .links a {
+    color: var(--ink);
+    padding-bottom: 4px;
+  }
+  /* current page keeps its underline drawn */
+  .links a.active {
+    background-size: 100% 1px;
+  }
+  .menu-btn {
+    display: none;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    color: var(--ink);
+  }
+
+  @media (max-width: 760px) {
+    .menu-btn {
+      display: block;
+    }
+    .links {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      gap: 1.2rem;
+      padding: 1.5rem;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+    .links.open {
+      display: flex;
+    }
+  }
+</style>

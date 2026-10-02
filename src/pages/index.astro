@@ -1,52 +1,85 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import EssayCard from "../components/EssayCard.astro";
-import BookCard from "../components/BookCard.astro";
-import NoteCard from "../components/NoteCard.astro";
+
+// Put a photo at public/images/hero.jpg, then set this to "/images/hero.jpg".
+// While it's empty, a soft placeholder shows instead.
+const heroImage = "";
 ---
 
-<BaseLayout title="Components — a little unsaid.">
-  <main class="container" style="padding-block: 4rem;">
+<BaseLayout title="a little unsaid. — books, feelings, and the things we don't always say">
+  <main>
+    <section class="container hero">
+      <div class="hero-text">
+        <p class="label">A quiet place for curious hearts</p>
+        <h1>Books, feelings, and the things we <em>don't always</em> say.</h1>
+        <p class="intro">
+          A personal corner of the internet for reading, reflecting, and making
+          sense of the in-between.
+        </p>
+        <a href="/read" class="btn">Explore the journey →</a>
+      </div>
 
-    <p class="label">Buttons</p>
-    <a href="#" class="btn">Explore the journey →</a>
-    &nbsp;&nbsp;
-    <a href="#" class="link-arrow">Read more</a>
-
-    <hr class="divider" />
-
-    <div class="section-head">
-      <h2>Latest from the journal</h2>
-      <a href="#" class="link-arrow label">View all</a>
-    </div>
-    <div class="grid-3">
-      <EssayCard category="Books" title="What Norwegian Wood taught me about loneliness" readTime="6" />
-      <EssayCard category="Think" title="Why do we overthink but still crave clarity" readTime="5" />
-      <EssayCard category="Feel" title="On outgrowing people you still love" readTime="7" />
-    </div>
-
-    <hr class="divider" />
-
-    <div class="section-head">
-      <h2>My bookshelf</h2>
-    </div>
-    <div class="grid-books">
-      <BookCard title="Normal People" author="Sally Rooney" status="Currently reading" note="couldn't stop" color="#6b7a64" />
-      <BookCard title="The Midnight Library" author="Matt Haig" status="Finished" note="cried a little" color="#2c3550" />
-      <BookCard title="Love, Theoretically" author="Ali Hazelwood" status="Finished" color="#a05a62" />
-      <BookCard title="The Song of Achilles" author="Madeline Miller" status="Want to read" color="#b9a98a" />
-    </div>
-
-    <hr class="divider" />
-
-    <div class="section-head">
-      <h2>From the margins</h2>
-    </div>
-    <div class="grid-3">
-      <NoteCard number="014" text="Maybe nostalgia is just memory asking to be felt." tilt={-2} />
-      <NoteCard number="013" text="Some people become chapters. Others become punctuation." tilt={1.5} />
-      <NoteCard number="012" text="There are things we understand only after we stop trying to." tilt={-1} />
-    </div>
-    
+      <div class="hero-image">
+        {heroImage ? <img src={heroImage} alt="" /> : <div class="placeholder"></div>}
+        <p class="handwritten sticky">same stories, different versions of me.</p>
+      </div>
+    </section>
   </main>
 </BaseLayout>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: var(--space-5);
+    align-items: center;
+    padding-block: var(--space-5);
+  }
+  .hero-text h1 {
+    max-width: 11em; /* narrows the headline so it breaks nicely */
+    margin-block: var(--space-2) var(--space-3);
+  }
+  .intro {
+    max-width: 26em;
+    color: var(--gray);
+    margin-bottom: var(--space-4);
+  }
+  .hero-image {
+    position: relative;
+    aspect-ratio: 4 / 4.2;
+  }
+  .hero-image img,
+  .placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .placeholder {
+    background: linear-gradient(160deg, var(--line), var(--sage));
+    opacity: 0.55;
+  }
+  /* the little torn-note on the corner of the photo */
+  .sticky {
+    position: absolute;
+    right: -0.8rem;
+    bottom: 2rem;
+    max-width: 9rem;
+    margin: 0;
+    padding: 1rem 1.2rem;
+    background: #ece5d8;
+    color: var(--ink);
+    transform: rotate(-4deg);
+    box-shadow: 1px 3px 10px rgba(36, 33, 30, 0.18);
+  }
+
+  @media (max-width: 760px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+      padding-block: var(--space-4);
+    }
+    .sticky {
+      right: 0.5rem;
+    }
+  }
+</style>

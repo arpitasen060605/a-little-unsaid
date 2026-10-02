@@ -1,0 +1,59 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container inner">
+    <div>
+      <a href="/" class="logo">a little <em>unsaid.</em></a>
+      <p class="tag">books, feelings, and the things we don't always say.</p>
+    </div>
+
+    <nav class="foot-links">
+      <a href="/read" class="label">Read</a>
+      <a href="/think" class="label">Think</a>
+      <a href="/feel" class="label">Feel</a>
+      <a href="/margins" class="label">Margins</a>
+      <a href="/bookshelf" class="label">Bookshelf</a>
+    </nav>
+  </div>
+
+  <div class="container copy">
+    <p class="label">© {year} a little unsaid. · for the thoughts we don't always say.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--line);
+    margin-top: var(--space-6);
+    padding-block: var(--space-4) var(--space-3);
+  }
+  .inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  .logo {
+    font-size: 1.6rem;
+    background-image: none;
+  }
+  .tag {
+    color: var(--gray);
+    margin: 0.4rem 0 0;
+    font-size: var(--text-sm);
+  }
+  .foot-links {
+    display: flex;
+    gap: 1.8rem;
+    flex-wrap: wrap;
+  }
+  .copy {
+    margin-top: var(--space-4);
+  }
+  .copy p {
+    margin: 0;
+  }
+</style>
