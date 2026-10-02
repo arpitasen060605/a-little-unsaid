@@ -1,0 +1,43 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import NoteCard from "../components/NoteCard.astro";
+
+const notes = (await getCollection("notes")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+// Cycle through a few tilts so the notes don't look identical
+const tilts = [-2, 1.5, -1, 2, -1.5];
+---
+
+<BaseLayout title="Margins — a little unsaid.">
+  <main class="container page">
+    <header class="page-head">
+      <p class="label">Margins</p>
+      <h1>Short thoughts, little observations, unfinished feelings.</h1>
+    </header>
+
+    <div class="grid-3 notes">
+      {notes.map((n, i) => (
+        <NoteCard number={n.data.number} text={n.data.text} tilt={tilts[i % tilts.length]} />
+      ))}
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: var(--space-5) 0;
+  }
+  .page-head {
+    margin-bottom: var(--space-5);
+  }
+  .page-head h1 {
+    max-width: 14em;
+    margin-top: var(--space-1);
+  }
+  .notes {
+    gap: var(--space-4);
+  }
+</style>

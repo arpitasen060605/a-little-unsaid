@@ -8,6 +8,8 @@ featured: true
 
 Some conversations end when the words stop. Others keep going in our heads for years.
 
+> Some conversations end when the words stop.
+
 This is placeholder text. Replace it with your real essay when you're ready.
 
 Mind-replays are rarely about the conversation itself. They're about what we wish we'd said.

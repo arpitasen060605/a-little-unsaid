@@ -1,0 +1,70 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import BookCard from "../components/BookCard.astro";
+
+const books = await getCollection("books");
+
+const sections = [
+  { key: "currently-reading", heading: "Currently reading" },
+  { key: "finished", heading: "Books that stayed with me" },
+  { key: "want-to-read", heading: "Waiting on the shelf" },
+];
+
+const statusLabel = {
+  "currently-reading": "Currently reading",
+  "finished": "Finished",
+  "want-to-read": "Want to read",
+};
+---
+
+<BaseLayout title="Bookshelf — a little unsaid.">
+  <main class="container page">
+    <header class="page-head">
+      <p class="label">Bookshelf</p>
+      <h1>A portrait of me, one book at a time.</h1>
+    </header>
+
+    {sections.map((s) => {
+      const list = books.filter((b) => b.data.status === s.key);
+      return list.length > 0 && (
+        <section class="shelf-section">
+          <h2>{s.heading}</h2>
+          <div class="grid-books">
+            {list.map((b) => (
+              <BookCard
+                title={b.data.title}
+                author={b.data.author}
+                status={statusLabel[b.data.status]}
+                color={b.data.color}
+                note={b.data.note}
+              />
+            ))}
+          </div>
+        </section>
+      );
+    })}
+  </main>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: var(--space-5) 0;
+  }
+  .page-head {
+    margin-bottom: var(--space-5);
+  }
+  .page-head h1 {
+    max-width: 14em;
+    margin-top: var(--space-1);
+  }
+  .shelf-section {
+    margin-bottom: var(--space-5);
+  }
+  .shelf-section h2 {
+    font-size: var(--text-lg);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: var(--space-4);
+  }
+</style>

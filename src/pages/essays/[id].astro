@@ -1,0 +1,83 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { readingTime } from "../../utils/readingTime";
+
+export async function getStaticPaths() {
+  const essays = await getCollection("essays");
+  return essays.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry); // turns the Markdown into HTML
+
+const date = entry.data.date.toLocaleDateString("en-US", {
+  month: "long",
+  year: "numeric",
+});
+---
+
+<BaseLayout title={`${entry.data.title} — a little unsaid.`}>
+  <main class="container article">
+    <a href={`/${entry.data.category}`} class="link-arrow back">Back to {entry.data.category}</a>
+
+    <header>
+      <p class="label">{entry.data.category}</p>
+      <h1>{entry.data.title}</h1>
+      <p class="meta label">{readingTime(entry.body)} min read · {date}</p>
+      {entry.data.inspiredBy && (
+        <p class="inspired">Inspired by <em>{entry.data.inspiredBy}</em></p>
+      )}
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .article {
+    max-width: var(--reading-width);
+    padding-block: var(--space-5) 0;
+  }
+  .back {
+    display: inline-block;
+    margin-bottom: var(--space-4);
+  }
+  .back::after {
+    content: none; /* this link points backwards, so no → arrow */
+  }
+  .back::before {
+    content: "← ";
+  }
+  h1 {
+    margin-block: var(--space-1) var(--space-2);
+  }
+  .meta {
+    margin: 0;
+  }
+  .inspired {
+    color: var(--gray);
+    font-style: italic;
+    margin-top: var(--space-1);
+  }
+  .prose {
+    margin-top: var(--space-4);
+    font-size: 1.25rem;
+  }
+  /* Markdown output is created after scoping, so we reach it with :global */
+  .prose :global(p) {
+    margin-bottom: 1.4em;
+  }
+  .prose :global(blockquote) {
+    margin: var(--space-4) 0;
+    padding-left: var(--space-3);
+    border-left: 2px solid var(--wine);
+    font-style: italic;
+    font-size: 1.4rem;
+  }
+</style>

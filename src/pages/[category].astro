@@ -1,0 +1,79 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import EssayCard from "../components/EssayCard.astro";
+import { readingTime } from "../utils/readingTime";
+
+export async function getStaticPaths() {
+  const info = {
+    read: {
+      heading: "Read",
+      intro: "Books, and the things they made me think about.",
+    },
+    think: {
+      heading: "Think",
+      intro: "Psychology, behaviour and the strange things humans do.",
+    },
+    feel: {
+      heading: "Feel",
+      intro: "Personal essays, and the things I'm still figuring out.",
+    },
+  };
+
+  const all = await getCollection("essays");
+
+  // One page per category: /read, /think, /feel
+  return Object.entries(info).map(([category, text]) => ({
+    params: { category },
+    props: {
+      ...text,
+      essays: all
+        .filter((e) => e.data.category === category)
+        .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+    },
+  }));
+}
+
+const { heading, intro, essays } = Astro.props;
+---
+
+<BaseLayout title={`${heading} — a little unsaid.`}>
+  <main class="container page">
+    <header class="page-head">
+      <p class="label">{heading}</p>
+      <h1>{intro}</h1>
+    </header>
+
+    {essays.length === 0 ? (
+      <p class="empty">Nothing here yet. Something is being written.</p>
+    ) : (
+      <div class="grid-3">
+        {essays.map((e) => (
+          <EssayCard
+            category={e.data.category}
+            title={e.data.title}
+            readTime={readingTime(e.body)}
+            href={`/essays/${e.id}`}
+          />
+        ))}
+      </div>
+    )}
+  </main>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: var(--space-5) 0;
+  }
+  .page-head {
+    margin-bottom: var(--space-5);
+  }
+  .page-head h1 {
+    max-width: 14em;
+    margin-top: var(--space-1);
+  }
+  .empty {
+    color: var(--gray);
+    font-style: italic;
+  }
+</style>
