@@ -11,6 +11,8 @@ const essays = defineCollection({
     date: z.coerce.date(),
     featured: z.boolean().default(false),
     inspiredBy: z.string().optional(), // e.g. "It Ends With Us"
+    image: z.string().optional(),
+    relatedBooks: z.array(z.string()).default([]),
   }),
 });
 

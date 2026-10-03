@@ -4,6 +4,7 @@ category: "think"
 description: "On memory, regret, and the conversations we never quite finish."
 date: 2026-09-20
 featured: true
+relatedBooks: ["normal-people", "the-midnight-library"]
 ---
 
 Some conversations end when the words stop. Others keep going in our heads for years.

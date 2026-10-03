@@ -1,0 +1,166 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import BookCard from "../components/BookCard.astro";
+import EssayCard from "../components/EssayCard.astro";
+import { readingTime } from "../utils/readingTime";
+
+const { entry, older, newer, books, more } = Astro.props;
+
+const date = entry.data.date.toLocaleDateString("en-US", {
+  month: "long",
+  year: "numeric",
+});
+---
+
+<BaseLayout title={`${entry.data.title} — a little unsaid.`}>
+  <main>
+    <div class="column top">
+      <a href={`/${entry.data.category}`} class="back label">Back to {entry.data.category}</a>
+      <p class="label cat">{entry.data.category}</p>
+      <h1>{entry.data.title}</h1>
+      <p class="label">{readingTime(entry.body)} min read · {date}</p>
+      {entry.data.inspiredBy && (
+        <p class="inspired">Inspired by <em>{entry.data.inspiredBy}</em></p>
+      )}
+    </div>
+
+    <div class="container hero">
+      {entry.data.image
+        ? <img src={entry.data.image} alt="" />
+        : <div class="placeholder"></div>}
+    </div>
+
+    <article class="column prose">
+      <slot />
+    </article>
+
+    {books.length > 0 && (
+      <section class="container related">
+        <h2>Related books</h2>
+        <div class="grid-books">
+          {books.map((b) => (
+            <BookCard
+              title={b.data.title}
+              author={b.data.author}
+              color={b.data.color}
+              note={b.data.note}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+
+    {more.length > 0 && (
+      <section class="container related">
+        <h2>You might also like</h2>
+        <div class="grid-3">
+          {more.map((e) => (
+            <EssayCard
+              category={e.data.category}
+              title={e.data.title}
+              readTime={readingTime(e.body)}
+              href={`/essays/${e.id}`}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+
+    <nav class="container pager">
+      {older ? <a href={`/essays/${older.id}`} class="label prev">{older.data.title}</a> : <span></span>}
+      {newer ? <a href={`/essays/${newer.id}`} class="label next">{newer.data.title}</a> : <span></span>}
+    </nav>
+  </main>
+</BaseLayout>
+
+<style>
+  /* A narrow centered column for reading */
+  .column {
+    width: min(100% - 3rem, var(--reading-width));
+    margin-inline: auto;
+  }
+  .top {
+    padding-top: var(--space-5);
+  }
+  .back {
+    display: inline-block;
+    margin-bottom: var(--space-4);
+  }
+  .back::before { content: "← "; }
+  .cat { color: var(--wine); margin: 0; }
+  h1 { margin-block: var(--space-1) var(--space-2); }
+  .inspired {
+    color: var(--gray);
+    font-style: italic;
+    margin-top: var(--space-1);
+  }
+
+  /* Large atmospheric image */
+  .hero {
+    margin-block: var(--space-4);
+    aspect-ratio: 21 / 9;
+  }
+  .hero img,
+  .placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .placeholder {
+    background: linear-gradient(160deg, var(--line), var(--sage));
+    opacity: 0.55;
+  }
+
+  /* The essay text */
+  .prose {
+    font-size: 1.25rem;
+  }
+  .prose :global(p) {
+    margin-bottom: 1.4em;
+  }
+  /* Quotes become handwritten "margin notes" */
+  .prose :global(blockquote) {
+    margin: var(--space-4) 0 var(--space-4) var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    background: #ece5d8;
+    transform: rotate(-1deg);
+    box-shadow: 1px 2px 8px rgba(36, 33, 30, 0.12);
+  }
+  .prose :global(blockquote p) {
+    margin: 0;
+    font-family: var(--font-hand);
+    font-size: 1.8rem;
+    line-height: 1.25;
+  }
+
+  /* Related sections */
+  .related {
+    margin-top: var(--space-6);
+  }
+  .related h2 {
+    font-size: var(--text-lg);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: var(--space-4);
+  }
+
+  /* Previous / next */
+  .pager {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--line);
+  }
+  .prev::before { content: "← "; }
+  .next::after { content: " →"; }
+  .next { text-align: right; margin-left: auto; }
+
+  @media (max-width: 760px) {
+    .hero { aspect-ratio: 4 / 3; }
+    .prose :global(blockquote) { margin-left: 0; }
+    .pager { flex-direction: column; }
+    .next { text-align: left; margin-left: 0; }
+  }
+</style>
