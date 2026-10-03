@@ -22,10 +22,15 @@ const { title = "a little unsaid." } = Astro.props;
     <Navbar />
     <slot />
     <Footer />
+
+    <div class="cursor" aria-hidden="true">
+      <div class="cursor-ring"><span class="cursor-label"></span></div>
+    </div>
   </body>
 </html>
 <script>
   // Watch for elements scrolling into view, then fade them in once
+  import "../scripts/motion";
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {

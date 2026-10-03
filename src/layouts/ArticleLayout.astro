@@ -26,8 +26,8 @@ const date = entry.data.date.toLocaleDateString("en-US", {
 
     <div class="container hero">
       {entry.data.image
-        ? <img src={entry.data.image} alt="" />
-        : <div class="placeholder"></div>}
+        ? <img src={entry.data.image} alt="" data-parallax />
+        : <div class="placeholder" data-parallax></div>}
     </div>
 
     <article class="column prose">
@@ -99,6 +99,7 @@ const date = entry.data.date.toLocaleDateString("en-US", {
   .hero {
     margin-block: var(--space-4);
     aspect-ratio: 21 / 9;
+    overflow: hidden;
   }
   .hero img,
   .placeholder {

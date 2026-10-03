@@ -51,7 +51,7 @@ const margins = (await getCollection("notes"))
 
       <div class="hero-image fade-up" style="--delay:.5s">
         {heroImage ? <img src={heroImage} alt="" /> : <div class="placeholder"></div>}
-        <p class="handwritten sticky">same stories, different versions of me.</p>
+        <p class="handwritten sticky" data-drift="30">same stories, different versions of me.</p>
       </div>
     </section>
 
@@ -65,7 +65,7 @@ const margins = (await getCollection("notes"))
           <p class="label">Featured essay · {readingTime(featured.body)} min read</p>
           <h2>{featured.data.title}</h2>
           <p class="blurb">{featured.data.description}</p>
-          <a href={`/essays/${featured.id}`} class="link-arrow">Read</a>
+          <a href={`/essays/${featured.id}`} class="link-arrow" data-cursor="Read ->">Read</a>
         </div>
       </section>
     )}
@@ -125,7 +125,7 @@ const margins = (await getCollection("notes"))
 
     <!-- A LITTLE LETTER -->
     <section class="container section reveal">
-      <a href="#" class="letter">
+      <a href="#" class="letter" data-cursor="Read ->">
         <p class="label">A little letter · September</p>
         <h2>On books I almost abandoned, people I still think about, and the strange comfort of starting over.</h2>
         <span class="link-arrow">Read</span>
@@ -194,6 +194,7 @@ const margins = (await getCollection("notes"))
   }
   .featured-image {
     aspect-ratio: 4 / 3;
+    overflow: hidden;
   }
   .featured-text h2 {
     margin-block: var(--space-1) var(--space-2);

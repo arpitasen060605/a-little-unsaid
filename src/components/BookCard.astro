@@ -2,7 +2,7 @@
 const { title, author, status, note, color = "#6b7a64" } = Astro.props;
 ---
 
-<div class="book">
+<div class="book" data-cursor="Open">
   <div class="cover" style={`background:${color}`}>
     <span>{title}</span>
   </div>

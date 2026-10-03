@@ -2,7 +2,7 @@
 const { text, number, tilt = -2 } = Astro.props;
 ---
 
-<div class="note-card" style={`--tilt:${tilt}deg`}>
+<div class="note-card" data-cursor= "Look" style={`--tilt:${tilt}deg`}>
   {number && <span class="label">{number}</span>}
   <p class="handwritten">{text}</p>
 </div>

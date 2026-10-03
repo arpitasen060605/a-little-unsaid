@@ -2,7 +2,7 @@
 const { category, title, readTime, href = "#", image } = Astro.props;
 ---
 
-<a href={href} class="essay-card">
+<a href={href} class="essay-card" data-cursor="Read ->">
   <div class="thumb">
     {image ? <img src={image} alt="" /> : <div class="placeholder"></div>}
   </div>
