@@ -31,19 +31,25 @@ const margins = (await getCollection("notes"))
 <BaseLayout title="a little unsaid. — books, feelings, and the things we don't always say">
   <main>
 
-    <!-- HERO -->
+        <!-- HERO -->
     <section class="container hero">
       <div class="hero-text">
-        <p class="label">A quiet place for curious hearts</p>
-        <h1>Books, feelings, and the things we <em>don't always</em> say.</h1>
-        <p class="intro">
+        <p class="label fade-up">A quiet place for curious hearts</p>
+
+        <h1 class="headline">
+          <span class="line"><span>Books, feelings,</span></span>
+          <span class="line"><span>and the things we</span></span>
+          <span class="line"><span><em>don't always</em> say.</span></span>
+        </h1>
+
+        <p class="intro fade-up" style="--delay:.9s">
           A personal corner of the internet for reading, reflecting, and making
           sense of the in-between.
         </p>
-        <a href="/read" class="btn">Explore the journey →</a>
+        <a href="/read" class="btn fade-up" style="--delay:1.1s">Explore the journey →</a>
       </div>
 
-      <div class="hero-image">
+      <div class="hero-image fade-up" style="--delay:.5s">
         {heroImage ? <img src={heroImage} alt="" /> : <div class="placeholder"></div>}
         <p class="handwritten sticky">same stories, different versions of me.</p>
       </div>
@@ -51,7 +57,7 @@ const margins = (await getCollection("notes"))
 
         <!-- FEATURED ESSAY -->
     {featured && (
-      <section class="container section featured">
+      <section class="container section featured reveal">
         <div class="featured-image">
           <div class="placeholder"></div>
         </div>
@@ -65,8 +71,8 @@ const margins = (await getCollection("notes"))
     )}
 
     <!-- LATEST FROM THE JOURNAL -->
-    <section class="container section">
-      <div class="section-head">
+    <section class="container section reveal">
+      <div class="section-head reveal">
         <h2>Latest from the journal</h2>
         <a href="/read" class="link-arrow label">View all</a>
       </div>
@@ -83,8 +89,8 @@ const margins = (await getCollection("notes"))
     </section>
 
     <!-- BOOKSHELF PREVIEW -->
-    <section class="container section">
-      <div class="section-head">
+    <section class="container section reveal">
+      <div class="section-head reveal">
         <h2>My bookshelf</h2>
         <a href="/bookshelf" class="link-arrow label">View all</a>
       </div>
@@ -102,8 +108,8 @@ const margins = (await getCollection("notes"))
     </section>
 
     <!-- FROM THE MARGINS -->
-    <section class="container section">
-      <div class="section-head">
+    <section class="container section reveal">
+      <div class="section-head reveal">
         <h2>From the margins</h2>
         <a href="/margins" class="link-arrow label">View all</a>
       </div>
@@ -118,7 +124,7 @@ const margins = (await getCollection("notes"))
     </section>
 
     <!-- A LITTLE LETTER -->
-    <section class="container section">
+    <section class="container section reveal">
       <a href="#" class="letter">
         <p class="label">A little letter · September</p>
         <h2>On books I almost abandoned, people I still think about, and the strange comfort of starting over.</h2>
@@ -270,4 +276,24 @@ const margins = (await getCollection("notes"))
       padding: var(--space-4) var(--space-3);
     }
   }
+
+  /* Headline: each line rises out of its own "mask" */
+  .line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.12em;  /* stops descenders (g, y) from being clipped */
+    margin-bottom: -0.12em;
+  }
+  .line > span {
+    display: block;
+    animation: rise 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .line:nth-child(1) > span { animation-delay: 0.2s; }
+  .line:nth-child(2) > span { animation-delay: 0.4s; }
+  .line:nth-child(3) > span { animation-delay: 0.6s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .line > span { animation: none; }
+  }
+
 </style>
