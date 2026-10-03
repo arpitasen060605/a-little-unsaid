@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="About — a little unsaid.">
+  <main class="column page">
+    <p class="label">About</p>
+    <h1>Hi. I'm the person behind <em>a little unsaid.</em></h1>
+
+    <div class="letter">
+      <p>
+        I read books, think too much, and write down the things that stay with me.
+      </p>
+      <p>
+        Sometimes that's a sentence from a book. Sometimes it's a question about
+        why people behave the way they do. Sometimes it's something I couldn't
+        quite say to someone.
+      </p>
+      <p>This is where I put those things.</p>
+
+      <h2>What I read</h2>
+      <p>
+        Write a few lines here: the genres you reach for, the books you return to,
+        and the ones you almost abandoned.
+      </p>
+
+      <h2>What I write about</h2>
+      <p>
+        Write a few lines here: books as starting points, the strange things
+        humans do, and the feelings that are hard to name.
+      </p>
+
+      <h2>Why this exists</h2>
+      <p>
+        Write a few lines here, in your own voice. This is the part readers
+        remember.
+      </p>
+
+      <p class="handwritten sign">— with love, (your name)</p>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .column {
+    width: min(100% - 3rem, var(--reading-width));
+    margin-inline: auto;
+  }
+  .page {
+    padding-block: var(--space-5) 0;
+  }
+  h1 {
+    margin-block: var(--space-1) var(--space-4);
+  }
+  .letter {
+    font-size: 1.25rem;
+  }
+  .letter p {
+    margin-bottom: 1.4em;
+  }
+  .letter h2 {
+    font-size: var(--text-lg);
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--line);
+  }
+  .sign {
+    font-size: 2rem;
+    margin-top: var(--space-4);
+    color: var(--wine);
+  }
+</style>
