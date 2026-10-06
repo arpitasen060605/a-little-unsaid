@@ -65,4 +65,13 @@ const { title, author, status, note, color = "#6b7a64" } = Astro.props;
     opacity: 1;
     transform: rotate(6deg) translateY(0);
   }
+  @media (hover: none) {
+    .note {
+      position: static;
+      opacity: 1;
+      transform: rotate(-2deg);
+      margin-top: 0.3rem;
+    }
+  }
+
 </style>

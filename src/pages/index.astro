@@ -248,9 +248,10 @@ const margins = (await getCollection("notes"))
   }
 
   /* ---------- Tablet + phone ---------- */
-  @media (max-width: 960px) {
-    .shelf {
-      grid-template-columns: repeat(3, 1fr);
+    @media (max-width: 960px) {
+    .hero,
+    .featured {
+      gap: var(--space-4);
     }
   }
 
