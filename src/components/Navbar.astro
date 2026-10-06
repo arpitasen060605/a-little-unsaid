@@ -34,13 +34,14 @@ const links = [
 </header>
 
 <script>
-  // Mobile menu: toggle the "open" class on the links
-  const btn = document.querySelector(".menu-btn");
-  const nav = document.querySelector("#nav-links");
+  document.addEventListener("astro:page-load", () => {
+    const btn = document.querySelector(".menu-btn");
+    const nav = document.querySelector("#nav-links");
 
-  btn?.addEventListener("click", () => {
-    const isOpen = nav?.classList.toggle("open");
-    btn.setAttribute("aria-expanded", String(isOpen));
+    btn?.addEventListener("click", () => {
+      const isOpen = nav?.classList.toggle("open");
+      btn.setAttribute("aria-expanded", String(isOpen));
+    });
   });
 </script>
 

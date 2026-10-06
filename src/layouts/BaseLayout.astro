@@ -7,6 +7,7 @@ import "@fontsource-variable/caveat";
 import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
+import {ClientRouter} from "astro:transitions";
 
 const { title = "a little unsaid." } = Astro.props;
 ---
@@ -17,31 +18,44 @@ const { title = "a little unsaid." } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
         <script is:inline>document.documentElement.classList.add("js");</script>
+        <ClientRouter/>
   </head>
   <body>
     <Navbar />
     <slot />
     <Footer />
 
-    <div class="cursor" aria-hidden="true">
+    <div class="cursor" aria-hidden="true" transition: persist>
       <div class="cursor-ring"><span class="cursor-label"></span></div>
     </div>
   </body>
 </html>
 <script>
-  // Watch for elements scrolling into view, then fade them in once
-  import "../scripts/motion";
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target); // reveal once, then stop watching
-        }
-      });
-    },
-    { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
-  );
+  import { initScrollMotion } from "../scripts/motion";
 
-  document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  function initReveals() {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+    );
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  }
+
+  // The new page arrives without our "js" class, so add it before the swap
+  document.addEventListener("astro:before-swap", (e) => {
+    e.newDocument.documentElement.classList.add("js");
+  });
+
+  // Fires on the first load AND after every navigation
+  document.addEventListener("astro:page-load", () => {
+    initReveals();
+    initScrollMotion();
+  });
 </script>

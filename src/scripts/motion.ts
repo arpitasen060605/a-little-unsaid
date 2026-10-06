@@ -3,60 +3,63 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* ---------- Parallax + drifting notes ---------- */
-const mm = gsap.matchMedia();
+/* ---------- Parallax + drifting notes (re-run on every page) ---------- */
+let mm: gsap.MatchMedia | undefined;
 
-mm.add(
-  {
-    motion: "(prefers-reduced-motion: no-preference)",
-    desktop: "(min-width: 761px)",
-  },
-  (context) => {
-    const { motion, desktop } = context.conditions as {
-      motion: boolean;
-      desktop: boolean;
-    };
-    if (!motion) return; // people who asked for less motion get none
+export function initScrollMotion() {
+  mm?.revert(); // clean up the previous page's animations
+  mm = gsap.matchMedia();
 
-    // Handwritten notes drift upward a little as you scroll past
-    document.querySelectorAll<HTMLElement>("[data-drift]").forEach((el) => {
-      const amount = Number(el.dataset.drift) || 20;
-      gsap.to(el, {
-        y: -amount,
-        ease: "none",
-        scrollTrigger: {
-          trigger: el,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true, // tied to the scrollbar
-        },
+  mm.add(
+    {
+      motion: "(prefers-reduced-motion: no-preference)",
+      desktop: "(min-width: 761px)",
+    },
+    (context) => {
+      const { motion, desktop } = context.conditions as {
+        motion: boolean;
+        desktop: boolean;
+      };
+      if (!motion) return;
+
+      document.querySelectorAll<HTMLElement>("[data-drift]").forEach((el) => {
+        const amount = Number(el.dataset.drift) || 20;
+        gsap.to(el, {
+          y: -amount,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
       });
-    });
 
-    // Images move slightly slower than the page (desktop only)
-    if (desktop) {
-      document.querySelectorAll<HTMLElement>("[data-parallax]").forEach((el) => {
-        gsap.fromTo(
-          el,
-          { yPercent: -7, scale: 1.2 },
-          {
-            yPercent: 7,
-            scale: 1.2,
-            ease: "none",
-            scrollTrigger: {
-              trigger: el.parentElement,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true,
-            },
-          }
-        );
-      });
+      if (desktop) {
+        document.querySelectorAll<HTMLElement>("[data-parallax]").forEach((el) => {
+          gsap.fromTo(
+            el,
+            { yPercent: -7, scale: 1.2 },
+            {
+              yPercent: 7,
+              scale: 1.2,
+              ease: "none",
+              scrollTrigger: {
+                trigger: el.parentElement,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true,
+              },
+            }
+          );
+        });
+      }
     }
-  }
-);
+  );
+}
 
-/* ---------- Custom cursor (mouse devices only) ---------- */
+/* ---------- Custom cursor (set up once, because it persists) ---------- */
 const cursor = document.querySelector<HTMLElement>(".cursor");
 const label = document.querySelector<HTMLElement>(".cursor-label");
 const hasMouse = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -71,7 +74,6 @@ if (cursor && label && hasMouse) {
     yTo(e.clientY);
   });
 
-  // Anything with data-cursor="..." changes the cursor's label
   document.addEventListener("mouseover", (e) => {
     const target = (e.target as HTMLElement).closest<HTMLElement>("[data-cursor]");
     if (target) {
