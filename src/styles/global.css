@@ -7,7 +7,7 @@
   --paper: #F5F1E9;
   --ink: #24211E;
   --wine: #75484D;
-  --gray: #817B73;
+  --gray: #6a645d;
   --sage: #899084;
   --line: #D9D2C7;
 
@@ -355,4 +355,31 @@ a:hover {
   ::view-transition-new(root) {
     animation: none;
   }
+}
+/* ============================================
+   Accessibility
+   ============================================ */
+
+.skip-link {
+  position: absolute;
+  top: -4rem;
+  left: 1rem;
+  z-index: 200;
+  padding: 0.7rem 1rem;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background-image: none;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* A visible outline when navigating with the keyboard (not on mouse clicks) */
+:focus-visible {
+  outline: 2px solid var(--wine);
+  outline-offset: 4px;
 }
