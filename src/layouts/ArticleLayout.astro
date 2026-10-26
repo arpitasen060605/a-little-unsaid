@@ -12,7 +12,11 @@ const date = entry.data.date.toLocaleDateString("en-US", {
 });
 ---
 
-<BaseLayout title={`${entry.data.title} — a little unsaid.`}>
+  <BaseLayout
+  title={`${entry.data.title} — a little unsaid.`}
+  description={entry.data.description}
+  image={entry.data.image}
+  >
   <main>
     <div class="column top">
       <a href={`/${entry.data.category}`} class="back label">Back to {entry.data.category}</a>
