@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Page not found — a little unsaid.">
+  <main class="column page">
+    <p class="label">404</p>
+    <h1>This page is one of the things <em>left unsaid.</em></h1>
+    <p class="handwritten">we couldn't find what you were looking for.</p>
+    <p><a href="/" class="btn">Back to the beginning →</a></p>
+  </main>
+</BaseLayout>
+
+<style>
+  .column {
+    width: min(100% - 2.5rem, var(--reading-width));
+    margin-inline: auto;
+  }
+  .page {
+    padding-block: var(--space-6);
+  }
+  h1 {
+    margin-block: var(--space-1) var(--space-3);
+  }
+  .handwritten {
+    margin-bottom: var(--space-4);
+  }
+</style>
